@@ -13,7 +13,6 @@ public class CharacterSwitcher : MonoBehaviour
 
     void Update()
     {
-        // Press Tab to switch characters
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             controllingFirst = !controllingFirst;

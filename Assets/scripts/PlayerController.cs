@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f;
     private bool isJumpPressed;
     public float jumpForce = 5f;
+    public Animator anim;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -40,5 +41,6 @@ public class PlayerController : MonoBehaviour
             isJumpPressed = false;
         }
 
+        anim.SetFloat("horizontal", horizontalInput);
     }
 }
