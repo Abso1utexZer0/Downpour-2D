@@ -2,27 +2,36 @@ using UnityEngine;
 
 public class PlayerWalkAnimator : MonoBehaviour
 {
-    public Sprite idleSprite;
-    public Sprite walkSprite;
-    private SpriteRenderer sr;
+    private Animator animator;
+    private SpriteRenderer spriteRenderer;
+    private Rigidbody2D rb;
+    private Vector3 lastPosition;
+    public bool isWalking;
+    private float horizontalInput;
 
-    void Awake()
+    void Start()
     {
-        sr = GetComponent<SpriteRenderer>();
+        animator = GetComponentInChildren<Animator>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        rb = GetComponentInParent<Rigidbody2D>();
+        lastPosition = transform.position;
     }
 
     void Update()
     {
-        float moveX = Input.GetAxisRaw("Horizontal");
+        horizontalInput = Input.GetAxis("Horizontal");
+    }
 
-        if (Mathf.Abs(moveX) > 0.01f)
+    void LateUpdate()
+    {
+        float moveSpeed = (transform.position - lastPosition).x / Time.deltaTime;
+        lastPosition = transform.position;
+
+        if (Mathf.Approximately(moveSpeed, 0f) && rb != null)
         {
-            sr.sprite = walkSprite;
-            sr.flipX = moveX < 0;
+            moveSpeed = rb.linearVelocity.x;
         }
-        else
-        {
-            sr.sprite = idleSprite;
-        }
+
+        animator.SetFloat("Speed", moveSpeed);
     }
 }

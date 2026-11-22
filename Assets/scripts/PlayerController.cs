@@ -8,15 +8,13 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f;
     private bool isJumpPressed;
     public float jumpForce = 5f;
-    public Animator anim;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private bool isWalking;
+    
     void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         horizontalInput = Input.GetAxis("Horizontal");
@@ -27,6 +25,17 @@ public class PlayerController : MonoBehaviour
         }
 
         Debug.Log("Horizontal Input: " + horizontalInput);
+        
+        if (horizontalInput > 0)
+        {
+            isWalking = true;
+            moveSpeed = 5f;
+        }
+        else
+        {
+            isWalking = false;
+            moveSpeed = 0;
+        }
     }
 
     void FixedUpdate()
@@ -40,7 +49,5 @@ public class PlayerController : MonoBehaviour
             _rigidbody2D.linearVelocity = new Vector2(_rigidbody2D.linearVelocity.x, jumpForce);
             isJumpPressed = false;
         }
-
-        anim.SetFloat("horizontal", horizontalInput);
     }
 }
